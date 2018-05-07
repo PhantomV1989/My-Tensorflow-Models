@@ -1,0 +1,21 @@
+Vanishing gradient
+
+def a():     
+    x,y=createSetFromCSV('TrainingSet.csv')
+    testset,y_=createSetFromCSV('Testset.csv')    
+    ann=NeuralNetwork(sizes=[10,10,10,10,10],lr=0.2,dropout=1)#dropout =1, ===normal neural network
+    ann.train(x,y)
+    sess = tf.InteractiveSession()
+    tf.global_variables_initializer().run()    
+    for i in range(1000):
+        sess.run(ann.train_op, feed_dict={ann.X:x,ann.Y:y})
+        #print(sess.run(ann.cost,feed_dict={ann.X:x,ann.Y:y}))  
+        print(sess.run(ann.weights[2][0][0]))  #<------------------------gradient~0 for 3rd layer below
+    csvOutput(sess.run(ann.use(testset)),'outputxxx.csv')    
+    print("Accuracy",sess.run(ann.accuracy(testset,y_)))
+-------------------------------------------------------------------------------------------------------------------
+try:
+            sess.run(tf.global_variables_initializer())
+        except:
+            sess.run(tf.global_variables_initializer())
+        sess.run(tf.global_variables_initializer())
